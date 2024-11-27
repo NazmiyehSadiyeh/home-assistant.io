@@ -13,7 +13,7 @@ ha_domain: nasa_api
 
 ## Overview
 
-The **NASA API Integration** for Home Assistant brings space exploration closer to your fingertips by enabling data from NASA's public APIs. Users can display space-related imagery, track near-Earth asteroids, and monitor Martian weather conditions directly in Home Assistant.
+The **NASA API Integration** for Home Assistant brings space exploration closer to your fingertips by enabling data from NASA's public APIs. Users can display space-related imagery, track near-Earth asteroids and monitor Martian weather conditions directly in Home Assistant.
 
 This integration supports the following APIs:
 
@@ -58,9 +58,11 @@ The NASA API integration is configured through the Home Assistant UI:
 *Example of an Astronomy Picture of the Day displayed in the Home Assistant dashboard.*
 
 #### Purpose
+
 NASA's APOD provides a daily image with an accompanying description, offering insights into astronomy and space exploration.
 
 #### How It's Displayed
+
 - **Entity**: `sensor.apod_image`
 - **Attributes**:
   - `title`: The image's title.
@@ -68,9 +70,11 @@ NASA's APOD provides a daily image with an accompanying description, offering in
   - `date`: The date the APOD was featured.
 
 #### Example in Home Assistant
+
 The APOD image is displayed in the dashboard, giving users a visual highlight of the day.
 
 #### Example Data
+
 ```json
 {
   "date": "2024-11-22",
@@ -81,6 +85,7 @@ The APOD image is displayed in the dashboard, giving users a visual highlight of
 ```
 
 #### Limitations of APOD Display
+
 Due to the limitations of the image entity in Home Assistant, clicking on the APOD image on the dashboard will not display additional details such as the title or explanation. These details are still fetched and available within Home Assistant, but they are not visible on the dashboard by default. This behavior may change with future updates or custom UI configurations.
 
 
@@ -90,27 +95,27 @@ Due to the limitations of the image entity in Home Assistant, clicking on the AP
 
 *Example of Near Earth Objects data visualization, including closest approach distances and hazardous asteroid counts.*
 
-Purpose
+#### Purpose
 
 NeoWs tracks near-Earth objects, offering vital details such as:
-	•	Sizes
-	•	Velocities
-	•	Closest and farthest approach distances
-	•	Hazardous asteroid counts
 
-How It’s Displayed
+- Sizes
+- Velocities
+- Closest and farthest approach distances
+- Hazardous asteroid counts
 
-	•	Entities:
-	•	sensor.closest_approach_distance
-	•	sensor.largest_neo_diameter
-	•	sensor.total_neo_count
-	•	Attributes: Include asteroid velocities, distances, and counts.
+### How It’s Displayed
 
-Example in Home Assistant
+#### Entities
 
-Near-Earth Object data is summarized, as shown in this screenshot:
+- sensor.closest_approach_distance
+- sensor.largest_neo_diameter
+- sensor.total_neo_count
+- Attributes: Include asteroid velocities, distances, and counts.
 
-Example Data
+
+### Example Data
+
 ```json
 {
   "element_count": 24,
@@ -129,25 +134,26 @@ Example Data
 }
 ```
 
-InSight: Mars Weather Service
+### InSight: Mars Weather Service
 
-Purpose
+#### Purpose
 
 Provides daily Martian weather data gathered from NASA’s InSight lander.
 
 How It’s Displayed
 
-	•	Entities:
-	•	sensor.mars_temperature (min/max/average)
-	•	sensor.mars_pressure (atmospheric pressure)
-	•	sensor.mars_wind_speed (wind speed)
-	•	These sensors display real-time data about the Martian climate.
+ • Entities:
+ • sensor.mars_temperature (min/max/average)
+ • sensor.mars_pressure (atmospheric pressure)
+ • sensor.mars_wind_speed (wind speed)
+ • These sensors display real-time data about the Martian climate.
 
-Example in Home Assistant
+#### Example in Home Assistant
 
 Mars weather is visualized in widgets such as:
 
-Example Data
+#### Example Data
+
 ```json
 {
   "sol_keys": ["1000"],
@@ -159,7 +165,9 @@ Example Data
 }
 ```
 
-Example YAML Configuration
+---
+
+### Example YAML Configuration
 
 Advanced users may use YAML to configure the integration:
 
@@ -169,22 +177,23 @@ nasa_api:
     - apod
     - asteroids
     - mars_weather
+  
+---
 
-Troubleshooting
+### Troubleshooting
 
-	•	Cannot connect to NASA API:
-	•	Ensure your API key is correct and active.
-	•	Verify your network connection.
-	•	No data displayed:
-	•	Check if entities are properly created and visible in Home Assistant.
-	•	Ensure you’ve enabled the APIs in the configuration.
-	•	Rate limiting:
-	•	NASA’s free API key has limits. If you hit them, request an upgraded API key from NASA.
+ • Cannot connect to NASA API:
+ • Ensure your API key is correct and active.
+ • Verify your network connection.
+ • No data displayed:
+ • Check if entities are properly created and visible in Home Assistant.
+ • Ensure you’ve enabled the APIs in the configuration.
+ • Rate limiting:
+ • NASA’s free API key has limits. If you hit them, request an upgraded API key from NASA.
 
-Additional Notes
+---
 
-	•	API data availability is subject to NASA’s uptime and performance.
-	•	Update intervals for sensors can be modified in coordinator.py.
+### Additional Notes
 
-
-
+ • API data availability is subject to NASA’s uptime and performance.
+ • Update intervals for sensors can be modified in coordinator.py.
