@@ -17,7 +17,7 @@ The **NASA API Integration** for Home Assistant brings space exploration closer 
 
 This integration supports the following APIs:
 
-- **APOD (Astronomy Picture of the Day)**: Showcases daily astronomy-related imagery or video.
+- **APOD (Astronomy Picture of the Day)**: Showcases daily astronomy-related imagery.
 - **Asteroids - NeoWs (Near Earth Object Web Service)**: Tracks near-Earth objects (NEOs), including their sizes, velocities, and hazard potential.
 - **InSight: Mars Weather Service**: Displays real-time Martian weather data from NASA's InSight lander.
 
@@ -27,7 +27,7 @@ This integration supports the following APIs:
 
 | API                | Description                                                                                 | Entities/Features                                                                                                                                          |
 |--------------------|---------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **APOD**           | Displays NASA's Astronomy Picture of the Day.                                               | - Entity for the APOD image or video<br>- Metadata: Title, description, and date                                                                           |
+| **APOD**           | Displays NASA's Astronomy Picture of the Day.                                               | - Entity for the APOD image<br>- Metadata: Title, description, and date                                                                           |
 | **Asteroids - NeoWs** | Tracks near-Earth objects (NEOs), including orbital details and hazardous asteroids.        | - Entities for closest approach distance, smallest and largest NEO diameters, average velocity, and total count                                           |
 | **InSight: Mars Weather** | Provides weather data from NASA's InSight lander on Mars.                               | - Entities for temperature (min/max/average), atmospheric pressure, and wind speed                                                                        |
 
@@ -39,12 +39,12 @@ The NASA API integration is configured through the Home Assistant UI:
 
 1. Navigate to **Settings > Integrations**.
 2. Search for **NASA API** and click to add it.
-3. Select the data sources you want to enable. A checklist will appear with the three available APIs: 
+3. Enter your NASA API key. You can use the provided **DEMO_KEY**, but it is recommended to generate your own API key for full access and to avoid rate limits. API keys can be obtained for free from the [NASA Developer Portal](https://api.nasa.gov/).   
+4. Select the data sources you want to enable. A checklist will appear with the three available APIs: 
    - **APOD (Astronomy Picture of the Day)**
    - **Asteroids - NeoWs (Near Earth Object Web Service)**
    - **InSight: Mars Weather Service**
    You can choose one, two, or all of them based on your needs.
-4. Enter your NASA API key. You can use the provided **DEMO_KEY**, but it is recommended to generate your own API key for full access and to avoid rate limits. API keys can be obtained for free from the [NASA Developer Portal](https://api.nasa.gov/).
 5. Save the configuration.
 
 ---
@@ -58,17 +58,17 @@ The NASA API integration is configured through the Home Assistant UI:
 *Example of an Astronomy Picture of the Day displayed in the Home Assistant dashboard.*
 
 #### Purpose
-NASA's APOD provides a daily image or video with an accompanying description, offering insights into astronomy and space exploration.
+NASA's APOD provides a daily image with an accompanying description, offering insights into astronomy and space exploration.
 
 #### How It's Displayed
 - **Entity**: `sensor.apod_image`
 - **Attributes**:
-  - `title`: The image or video's title.
+  - `title`: The image's title.
   - `description`: A detailed explanation.
   - `date`: The date the APOD was featured.
 
 #### Example in Home Assistant
-The APOD image or video is displayed in the dashboard, giving users a visual highlight of the day.
+The APOD image is displayed in the dashboard, giving users a visual highlight of the day.
 
 #### Example Data
 ```json
