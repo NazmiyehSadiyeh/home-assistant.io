@@ -140,13 +140,14 @@ NeoWs tracks near-Earth objects, offering vital details such as:
 
 Provides daily Martian weather data gathered from NASA’s InSight lander.
 
-How It’s Displayed
+#### How It’s Displayed
 
- • Entities:
- • sensor.mars_temperature (min/max/average)
- • sensor.mars_pressure (atmospheric pressure)
- • sensor.mars_wind_speed (wind speed)
- • These sensors display real-time data about the Martian climate.
+Entities:
+
+- sensor.mars_temperature (min/max/average)
+- sensor.mars_pressure (atmospheric pressure)
+- sensor.mars_wind_speed (wind speed)
+- These sensors display real-time data about the Martian climate.
 
 #### Example in Home Assistant
 
@@ -171,29 +172,33 @@ Mars weather is visualized in widgets such as:
 
 Advanced users may use YAML to configure the integration:
 
+```YAML
+{
 nasa_api:
   api_key: "your_nasa_api_key"
   data_sources:
     - apod
     - asteroids
     - mars_weather
+}
+```
   
 ---
 
 ### Troubleshooting
 
- • Cannot connect to NASA API:
- • Ensure your API key is correct and active.
- • Verify your network connection.
- • No data displayed:
- • Check if entities are properly created and visible in Home Assistant.
- • Ensure you’ve enabled the APIs in the configuration.
- • Rate limiting:
- • NASA’s free API key has limits. If you hit them, request an upgraded API key from NASA.
+- Cannot connect to NASA API:
+- Ensure your API key is correct and active.
+- Verify your network connection.
+- No data displayed:
+  - Check if entities are properly created and visible in Home Assistant.
+  - Ensure you’ve enabled the APIs in the configuration.
+  -  Rate limiting:
+  - NASA’s free API key has limits. If you hit them, request an upgraded API key from NASA.
 
 ---
 
 ### Additional Notes
 
- • API data availability is subject to NASA’s uptime and performance.
- • Update intervals for sensors can be modified in coordinator.py.
+- API data availability is subject to NASA’s uptime and performance.
+- Update intervals for sensors can be modified in coordinator.py.
