@@ -80,6 +80,10 @@ The APOD image is displayed in the dashboard, giving users a visual highlight of
 }
 ```
 
+#### Limitations of APOD Display
+Due to the limitations of the image entity in Home Assistant, clicking on the APOD image on the dashboard will not display additional details such as the title or explanation. These details are still fetched and available within Home Assistant, but they are not visible on the dashboard by default. This behavior may change with future updates or custom UI configurations.
+
+
 ### **Asteroids - NeoWs (Near Earth Object Web Service)**
 
 <img src="../../images/integrations/nasa_api/NEO.png" alt="NEOs Image" width="500" />
