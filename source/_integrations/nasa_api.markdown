@@ -174,7 +174,12 @@ Mars weather is visualized in widgets such as:
 
 ## Custom Dashboard for the NASA integration
 
-To overcome the limitation of the APOD integration where clicking on the image doesn’t show additional details, It's recommended that users create a custom dashboard. This custom dashboard will fully display the APOD data and provide more detailed information about each near-Earth object (NEO), such as its size, velocity, and closest approach.
+To enhance the user experience and overcome the limitations of the APOD integration, where clicking on the image doesn’t provide additional details, creating a custom dashboard in Home Assistant is recommended. 
+This dashboard will display detailed information for all available NASA data sources, offering richer insights and a more interactive experience.
+
+- **APOD (Astronomy Picture of the Day):** The custom dashboard displays the APOD integration with its title, description and image. This provides a complete view of the daily astronomy image and its accompanying details.
+- **NeoWs (Near-Earth Object Web Service):** A summary of Near-Earth Objects (NEOs) is displayed, including detailed data for each object, such as size, velocity, miss distance and closest approach. This makes it easy to view key characteristics of each asteroid directly on the dashboard, without the need for additional interactions.
+- **Mars Weather:** Mars weather data is shown in a user-friendly widget, displaying the temperature, atmospheric pressure and wind speed. It also includes the season, min and max temperature. 
 
 ### How to Create a Custom Dashboard
 
