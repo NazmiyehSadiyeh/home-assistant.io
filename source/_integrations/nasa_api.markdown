@@ -103,9 +103,19 @@ NASA’s NeoWs API tracks near-Earth objects, providing crucial information such
 
 #### How It’s Displayed
 
+**Card View:**
+
 <img src="../../images/integrations/nasa_api/NEO.png" alt="NEOs Image" width="500" />
 
 *Example of Near Earth Objects data visualization, including closest approach distances and hazardous asteroid counts.*
+
+**Expanded View:**
+
+When you click on any of the summary statistics in the NEO card (e.g., Average NEO Diameter, Total NEO Count), it will expand to show more detailed information, including a historical graph. The example below shows the history of the Average NEO Diameter visualized over time. Giving users a better understanding of the changes in the data.
+
+<img src="../../images/integrations/nasa_api/NEO_click.png" alt="NEOs Expanded View" width="500" />
+
+*Clicking on a summary statistic in the NEO card reveals the historical data, such as the graph for the Average NEO Diameter.*
 
 #### Entities
 
@@ -146,7 +156,18 @@ NASA’s InSight Mars Weather API provides daily weather updates from Mars, offe
 
 #### How It’s Displayed
 
-Entities:
+**Card View**  
+
+<img src="../../images/integrations/nasa_api/Mars_1.png" alt="Mars Weather Card View" width="500" />
+
+*Example of Mars Weather in the card view, showing the current temperature and weather condition.*
+
+**Expanded View**  
+<img src="../../images/integrations/nasa_api/Mars_2.png" alt="Mars Weather Expanded View" width="500" />
+
+*Example of Mars Weather in the expanded view, showing more detailed weather information like pressure and wind speed.*
+
+#### Entities:
 
 - sensor.mars_temperature (min/max/average)
 - sensor.mars_pressure (atmospheric pressure)
@@ -233,25 +254,32 @@ views:
                 entity: sensor.near_earth_objects_total_neo_count
           - type: markdown
             title: List of Near-Earth Objects
-            content: |
-              {% if states.sensor.near_earth_objects_total_neo_count.attributes.asteroids %}
-              {% for asteroid in states.sensor.near_earth_objects_total_neo_count.attributes.asteroids %}
-              ## **{{ asteroid.name }}**
+            content: >
+              {% set asteroids =
+              state_attr('sensor.near_earth_objects_total_neo_count',
+              'asteroids') %} {% if asteroids %}
+
+              {% for asteroid in asteroids %} ## **{{ asteroid.name }}**
 
               - **ID:** {{ asteroid.id }}
+
               - **Potentially Hazardous:** {{ asteroid.hazardous }}
+
               - **Diameter (min):** {{ asteroid.min_diameter_m }} m
+
               - **Diameter (max):** {{ asteroid.max_diameter_m }} m
+
               - **Close Approach Date:** {{ asteroid.close_approach_date }}
+
               - **Miss Distance:** {{ asteroid.miss_distance_km }} km
+
               - **Relative Velocity:** {{ asteroid.relative_velocity_kph }} km/h
+
               [See more]({{ asteroid.url }})
 
               ___
-              {% endfor %}
-              {% else %}
-              No asteroid data available.
-              {% endif %}
+
+              {% endfor %} {% else %} No asteroid data available. {% endif %}
           - type: entities
             entities:
               - entity: sensor.near_earth_objects_total_neo_count
@@ -275,6 +303,65 @@ views:
             state_color: false
             title: Summary
         column_span: 2
+      - type: grid
+        cards:
+          - type: heading
+            heading: Astronomy Picture of the Day
+            heading_style: title
+            icon: mdi:image-frame
+            badges:
+              - type: entity
+                entity: image.astronomy_picture_of_the_day
+          - type: markdown
+            content: |
+              ## {{ state_attr('image.astronomy_picture_of_the_day', 'title') }}
+          - type: picture-entity
+            entity: image.astronomy_picture_of_the_day
+            show_name: false
+            show_state: false
+            name: |
+              {{ state_attr('image.astronomy_picture_of_the_day', 'title') }}
+            caption: >
+              {{ state_attr('image.astronomy_picture_of_the_day', 'description')
+              }}
+          - type: markdown
+            content: >
+              {{ state_attr('image.astronomy_picture_of_the_day', 'description')
+              }}
+          - type: markdown
+            content: >
+              ## 🌌 Mars Weather Overview
+
+              **Sol**: {{ state_attr('weather.mars_weather', 'sol') }}  
+
+              **Season**: {{ state_attr('weather.mars_weather', 'season') }}  
+
+
+              **🌡️ Temperature**:  
+
+              - Current: {{ state_attr('weather.mars_weather', 'temperature') }}
+              {{ state_attr('weather.mars_weather', 'temperature_unit') }}  
+
+              - Min: {{ state_attr('weather.mars_weather', 'temperature_min') }}
+              {{ state_attr('weather.mars_weather', 'temperature_unit') }}  
+
+              - Max: {{ state_attr('weather.mars_weather', 'temperature_max') }}
+              {{ state_attr('weather.mars_weather', 'temperature_unit') }}  
+
+
+              **🌀 Atmospheric Pressure**:  
+
+              {{ state_attr('weather.mars_weather', 'pressure') }} {{
+              state_attr('weather.mars_weather', 'pressure_unit') }}  
+
+
+              **💨 Wind**:  
+
+              - Speed: {{ state_attr('weather.mars_weather', 'wind_speed') }} {{
+              state_attr('weather.mars_weather', 'wind_speed_unit') }}  
+
+              - Bearing: {{ state_attr('weather.mars_weather', 'wind_bearing')
+              }}° 
 ```
 
 ---
