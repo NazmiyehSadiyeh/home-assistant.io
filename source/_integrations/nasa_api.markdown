@@ -70,7 +70,6 @@ NASA's APOD provides a daily image with an accompanying description, offering in
   - `description`: A detailed explanation.
   - `date`: The date the APOD was featured.
 
-
 <img src="../../images/integrations/nasa_api/APOD.png" alt="APOD Image" width="500" />
 
 *Example of an Astronomy Picture of the Day displayed in the Home Assistant dashboard.*
@@ -89,7 +88,6 @@ NASA's APOD provides a daily image with an accompanying description, offering in
 #### Limitations of APOD Display
 
 Due to the limitations of the image entity in Home Assistant, clicking on the APOD image on the dashboard will not display additional details such as the title or explanation. These details are still fetched and available within Home Assistant, but they are not visible on the dashboard by default. This behavior may change with future updates or custom UI configurations.
-
 
 ### **Asteroids - NeoWs (Near Earth Object Web Service)**
 
@@ -167,7 +165,7 @@ NASA’s InSight Mars Weather API provides daily weather updates from Mars, offe
 
 *Example of Mars Weather in the expanded view, showing more detailed weather information like pressure and wind speed.*
 
-#### Entities:
+#### Entities
 
 - sensor.mars_temperature (min/max/average)
 - sensor.mars_pressure (atmospheric pressure)
@@ -195,186 +193,75 @@ Mars weather is visualized in widgets such as:
 
 ## Custom Dashboard for the NASA integration
 
-To enhance the user experience and overcome the limitations of the APOD integration, where clicking on the image doesn’t provide additional details, creating a custom dashboard in Home Assistant is recommended. 
-This dashboard will display detailed information for all available NASA data sources, offering richer insights and a more interactive experience.
+To enhance the user experience and overcome the limitations of the APOD integration, where clicking on the image doesn’t provide additional details, creating a custom dashboard in Home Assistant is **highly recommended**.
+A custom dashboard will allow you to display detailed information for all available NASA data sources, offering richer insights and a more interactive experience. As a user, you have the flexibility to customize the dashboard to suit your preferences,
+creating an intuitive and personalized interface for monitoring your data.
+Home Assistant provides a comprehensive step-by-step guide on how to create a custom dashboard, which can be found here:  [Home Assistant Documentation on Creating Dashboards](https://www.home-assistant.io/lovelace/)
 
-- **APOD (Astronomy Picture of the Day):** The custom dashboard displays the APOD integration with its title, description and image. This provides a complete view of the daily astronomy image and its accompanying details.
-- **NeoWs (Near-Earth Object Web Service):** A summary of Near-Earth Objects (NEOs) is displayed, including detailed data for each object, such as size, velocity, miss distance and closest approach. This makes it easy to view key characteristics of each asteroid directly on the dashboard, without the need for additional interactions.
-- **Mars Weather:** Mars weather data is shown in a user-friendly widget, displaying the temperature, atmospheric pressure and wind speed. It also includes the season, min and max temperature. 
+<a href="javascript:void(0);" onclick="document.getElementById('popup').style.display='block'">
+  <img src="../../images/integrations/nasa_api/custom_dash.png" alt="Example of a NASA Integration custom dashboard" width="800">
+</a>
 
-### How to Create a Custom Dashboard
+<div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.8); z-index:999;">
+  <span onclick="document.getElementById('popup').style.display='none'" style="position:absolute; top:10px; right:25px; color:white; font-size:36px; font-weight:bold;">&times;</span>
+  <img src="../../images/integrations/nasa_api/custom_dash.png" style="position:relative; top:50%; left:50%; transform:translate(-50%, -50%); max-width:100%; max-height:100%;">
+</div>
 
-1. **Access Home Assistant Settings**
-   - Open Home Assistant.
-   - In the left sidebar, click on the **Settings** icon (gear symbol).
-
-2. **Navigate to Dashboards**
-   - Under **Settings**, click on **Dashboards**. This will show you a list of all existing dashboards in your Home Assistant setup.
-
-3. **Create a New Dashboard**
-   - In the **Dashboards** section, click the **+ ADD DASHBOARD** button at the bottom left.
-   - A pop-up will appear. Select **New dashboard from scratch**.
-
-4. **Configure the Dashboard Settings**
-   - In the **Dashboard Title** field, enter a name for your dashboard (e.g., "NASA").
-   - For the **Icon**, select **mdi:rocket-launch** or any other relevant icon.
-   - Click **Create** to create the new dashboard.
-
-5. **Open the New Dashboard**
-   - After creating the dashboard, a new tab labeled **NASA** (or the name you chose) will appear in the upper section.
-   - Click on this tab to open the newly created dashboard.
-
-6. **Edit the Dashboard Configuration**
-   - In the **NASA** dashboard page, click on the three vertical dots (more options) in the top-right corner.
-   - Select **Raw configuration editor** from the dropdown menu.
-
-7. **Use the Suggested Configuration Below**
-   - Copy the configuration provided below and paste it into the **Raw configuration editor**.
-
-8. **Save the Configuration**
-   - After pasting the configuration, click **Save** to apply the changes.
-
-9. **Finish Setup**
-   - Once the configuration is saved, click **Done** at the top of the page to complete the dashboard setup.
-
-### Recommended configuration for Custom Dashboard
-
-```YAML
-views:
-  - title: Home
-    sections:
-      - type: grid
-        cards:
-          - type: heading
-            heading: Near-Earth Objects
-            heading_style: title
-            icon: mdi:alert-circle
-            badges:
-              - type: entity
-                entity: sensor.near_earth_objects_total_neo_count
-          - type: markdown
-            title: List of Near-Earth Objects
-            content: >
-              {% set asteroids =
-              state_attr('sensor.near_earth_objects_total_neo_count',
-              'asteroids') %} {% if asteroids %}
-
-              {% for asteroid in asteroids %} ## **{{ asteroid.name }}**
-
-              - **ID:** {{ asteroid.id }}
-
-              - **Potentially Hazardous:** {{ asteroid.hazardous }}
-
-              - **Diameter (min):** {{ asteroid.min_diameter_m }} m
-
-              - **Diameter (max):** {{ asteroid.max_diameter_m }} m
-
-              - **Close Approach Date:** {{ asteroid.close_approach_date }}
-
-              - **Miss Distance:** {{ asteroid.miss_distance_km }} km
-
-              - **Relative Velocity:** {{ asteroid.relative_velocity_kph }} km/h
-
-              [See more]({{ asteroid.url }})
-
-              ___
-
-              {% endfor %} {% else %} No asteroid data available. {% endif %}
-          - type: entities
-            entities:
-              - entity: sensor.near_earth_objects_total_neo_count
-                name: Total NEO Count
-              - entity: sensor.near_earth_objects_potentially_hazardous_neos
-                name: Potentially Hazardous NEOs
-              - entity: sensor.near_earth_objects_smallest_neo_diameter
-                name: Smallest NEO Diameter
-              - entity: sensor.near_earth_objects_average_neo_diameter
-                name: Average NEO Diameter
-              - entity: sensor.near_earth_objects_largest_neo_diameter
-                name: Largest NEO Diameter
-              - entity: sensor.near_earth_objects_slowest_velocity
-                name: Slowest Velocity
-              - entity: sensor.near_earth_objects_fastest_velocity
-                name: Fastest Velocity
-              - entity: sensor.near_earth_objects_closest_approach_distance
-                name: Closest Approach Distance
-              - entity: sensor.near_earth_objects_farthest_approach_distance
-                name: Farthest Approach Distance
-            state_color: false
-            title: Summary
-        column_span: 2
-      - type: grid
-        cards:
-          - type: heading
-            heading: Astronomy Picture of the Day
-            heading_style: title
-            icon: mdi:image-frame
-            badges:
-              - type: entity
-                entity: image.astronomy_picture_of_the_day
-          - type: markdown
-            content: |
-              ## {{ state_attr('image.astronomy_picture_of_the_day', 'title') }}
-          - type: picture-entity
-            entity: image.astronomy_picture_of_the_day
-            show_name: false
-            show_state: false
-            name: |
-              {{ state_attr('image.astronomy_picture_of_the_day', 'title') }}
-            caption: >
-              {{ state_attr('image.astronomy_picture_of_the_day', 'description')
-              }}
-          - type: markdown
-            content: >
-              {{ state_attr('image.astronomy_picture_of_the_day', 'description')
-              }}
-          - type: markdown
-            content: >
-              ## 🌌 Mars Weather Overview
-
-              **Sol**: {{ state_attr('weather.mars_weather', 'sol') }}  
-
-              **Season**: {{ state_attr('weather.mars_weather', 'season') }}  
+*Example of a custom dashboard for the NASA integration in Home Assistant. It displays detailed information about Near-Earth Objects (NEOs), the Astronomy Picture of the Day (APOD), and Mars Weather. The layout is organized and interactive. **Click on the image to view a zoomed-in version.***
 
 
-              **🌡️ Temperature**:  
+---
 
-              - Current: {{ state_attr('weather.mars_weather', 'temperature') }}
-              {{ state_attr('weather.mars_weather', 'temperature_unit') }}  
+## Configuring Alerts for the NASA Data Sources in Home Assistant
 
-              - Min: {{ state_attr('weather.mars_weather', 'temperature_min') }}
-              {{ state_attr('weather.mars_weather', 'temperature_unit') }}  
+Initially, the plan was to code notifications  directly into the NASA integration. However, using **Home Assistant’s Automation** feature provided a more flexible solution. Automations allow for customized notifications based on data changes from NEOs or other NASA data sources. When an alert is triggered, an actionable notification will appear in Home Assistant. It will show updated information, such as the new NEO count. It provide quick access to relevant data or more details. For more information on setting up automations, refer to the [Home Assistant Automation Documentation](https://www.home-assistant.io/docs/automation/).
 
-              - Max: {{ state_attr('weather.mars_weather', 'temperature_max') }}
-              {{ state_attr('weather.mars_weather', 'temperature_unit') }}  
+### How to Set Up Notifications in Home Assistant for NEOs integration
 
+Follow these simplified steps to set up notifications for **hazardous NEO** count changes. The same process can be used for other data sources, such as Mars Weather. Just adjust the entity and conditions as needed.
 
-              **🌀 Atmospheric Pressure**:  
+1. Access Automations
+   - Open **Home Assistant**.
+   - Navigate to **Settings > Automations & Scenes**.
+   - Click **+ CREATE AUTOMATION** in the bottom-right corner.
+2. Create a New Automation
+   - Choose **Start with an empty automation**.
+3. Set Up the Trigger
+   - Under **Triggers**, click **+ ADD Trigger**.
+   - For **Trigger Type**, select **State**.
+   - For **Entity**, select `sensor.near_earth_objects_potentially_hazardous_neos`.
+   - Set **From** and **To** values for when the count changes (e.g., if it’s greater than zero).
+4. Define the Action
+   - Under **Actions**, click **+ ADD Action**.
+   - Choose **Call Service**.
+   - In the **Service** field, select `notify.notify` (or another available notification service).
+   - In the **Service Data** field, enter a message like:
 
-              {{ state_attr('weather.mars_weather', 'pressure') }} {{
-              state_attr('weather.mars_weather', 'pressure_unit') }}  
+        ```yaml
+        message: "The count of potentially hazardous NEOs has changed."
+        ```
 
+5. Save and Test the Automation
+   - Click **Save** to save the automation.
+   - Test the automation by triggering it to confirm the notification is sent.
 
-              **💨 Wind**:  
+### Example of other Use Cases
 
-              - Speed: {{ state_attr('weather.mars_weather', 'wind_speed') }} {{
-              state_attr('weather.mars_weather', 'wind_speed_unit') }}  
-
-              - Bearing: {{ state_attr('weather.mars_weather', 'wind_bearing')
-              }}° 
-```
+- **NEO Close Approach Distance Alert:**
+  - **Trigger**: When the **Closest Approach Distance** of any NEO falls below a set threshold (e.g., 1 million km).
+  - **Action**: Send a notification with NEO details such as name, distance and close approach date.
 
 ---
 
 ## Troubleshooting
 
 - Cannot connect to NASA API:
-- Ensure your API key is correct and active.
-- Verify your network connection.
+  - Ensure your API key is correct and active.
+  - Verify your network connection.
 - No data displayed:
   - Check if entities are properly created and visible in Home Assistant.
   - Ensure you’ve enabled the APIs in the configuration.
-  - Rate limiting:
+- Rate limiting:
   - NASA’s free API key has limits. If you hit them, request an upgraded API key from NASA.
 
 ---
